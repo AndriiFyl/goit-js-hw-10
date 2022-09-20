@@ -34,7 +34,7 @@ const inputValue = refs.inputSearch.value;
 
         else if (country.length >= 2 && country.length < 10) {
             return country
-                // через map++++++++++++++++++++++++++++++++++++++++++++++++++
+            //     // через map++++++++++++++++++++++++++++++++++++++++++++++++++
                 .map(({
                     flags: { svg },
                     name: { official } }) => {
@@ -43,14 +43,14 @@ const inputValue = refs.inputSearch.value;
                 });
             
             // Через REDUCE+++++++++++++++++++++++++++++++++++++++++++++++++
-            // const markupList = listMarkup(svg, official)
+            // const markupList = country
             // .reduce((acc, { flags: { svg }, name: { official }, }) => {
             //  return acc + listMarkup(svg, official)}, '')
                     
             // refs.countryList.innerHTML = markupList;
             // refs.cardInfoCountry.innerHTML = '';
-
-            }   
+        }  
+            
        else  {
             return  country
             .map(({
