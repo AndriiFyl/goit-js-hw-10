@@ -4,8 +4,8 @@ import fetchCountries from './fetchCountries';
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import getRefs from './get_refs';
-import putMarkup from './markups.js/markup'
-import listMarkup from './markups.js/listCountriesMarkup'
+import countryRender from './markups.js/oneCountryRender';
+import renderCountriesList from './markups.js/renderCountryList';
 
 const DEBOUNCE_DELAY = 300;
 // рефы (вынесены отдельным файлом)
@@ -33,39 +33,20 @@ const inputValue = refs.inputSearch.value;
         }
 
         else if (country.length >= 2 && country.length < 10) {
-            return country
-            //     // через map++++++++++++++++++++++++++++++++++++++++++++++++++
-                .map(({
-                    flags: { svg },
-                    name: { official } }) => {
-                    refs.cardInfoCountry.innerHTML = '';
-                    refs.countryList.insertAdjacentHTML("beforeend", listMarkup(svg, official));
-                });
-            
-            // Через REDUCE+++++++++++++++++++++++++++++++++++++++++++++++++
-            // const markupList = country
-            // .reduce((acc, { flags: { svg }, name: { official }, }) => {
-            //  return acc + listMarkup(svg, official)}, '')
-                    
-            // refs.countryList.innerHTML = markupList;
-            // refs.cardInfoCountry.innerHTML = '';
-        }  
-            
-       else  {
-            return  country
-            .map(({
-            flags: { svg },
-            name: { official },
-            capital,
-            population,
-            languages }) => {
+             const renderCountries = renderCountriesList(country); 
+             refs.cardInfoCountry.innerHTML = '';
+             refs.countryList.insertAdjacentHTML("beforeend", renderCountries);
+        }    
+        else  {
+            const renderingCountry = countryRender(country);
             refs.countryList.innerHTML = '';
-            refs.cardInfoCountry.innerHTML = putMarkup(svg, official, capital, population, languages);
-            })
+            refs.cardInfoCountry.innerHTML = renderingCountry;
         }
         })
         .catch(error => {
-            Notify.failure('Oops, there is no country with that name');
+            Notify.failure('Oops, there is no country with that name');  
+            refs.countryList.innerHTML = '';  
+            refs.cardInfoCountry.innerHTML = '';
         });  
 }
 
